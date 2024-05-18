@@ -1,5 +1,9 @@
-from websockets import server
+import src.websockets
+
+
+def main():
+    src.websockets.start()
 
 
 if __name__ == '__main__':
-    server.start()
+    main()

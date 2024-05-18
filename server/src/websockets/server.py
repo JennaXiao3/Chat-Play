@@ -13,16 +13,16 @@ def handle_message(message: str):
     data = json.loads(message)
     
     match data["action"]:
-        case "create_room":
-            message = json.dumps(handlers.create_room(data["user_id"]))
+        case "create-room":
+            message = json.dumps(handlers.create_room(data["hostName"]))
             socketio.emit("created-room", message)
             
-        case "join_room":
-            message = handlers.join_room(data["room_id"])
+        case "join-room":
+            message = handlers.join_room(data["roomId"])
             socketio.emit("joined-room", message)
             
-        case "start_room":
-            response = handlers.start_room(data["user_id"], data["room_code"])
+        case "start-room":
+            response = handlers.start_room(data["userId"], data["roomCode"])
         
         case _:
             raise ValueError("no action matched")

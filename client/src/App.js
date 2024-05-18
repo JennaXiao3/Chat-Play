@@ -1,25 +1,17 @@
-import logo from "./logo.svg";
-import "./App.css";
+// src/App.js
+import { socket } from "./websockets";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const createRoom = () => {
+    socket.send(
+      JSON.stringify({
+        "action": "create-room",
+        "hostName": "bob",
+      })
+    );
+  };
+
+  return <button onClick={createRoom}>Create Room</button>;
 }
 
 export default App;
