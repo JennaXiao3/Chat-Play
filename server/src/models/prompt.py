@@ -1,5 +1,6 @@
 import time
 from typing import List, Dict, Optional
+from server.src.models.user import User
 
 class Prompt:
     def __init__(self, prompt_id: int, text: str):
@@ -33,7 +34,7 @@ class Prompt:
             self.user_answers[user_id].append(answer)
             
             if len(self.user_answers) == len(self.users):
-                time.sleep(120)  # This will block execution; consider using async sleep in async context
+                time.sleep(120)  
                 self.next_prompt()
                 
                 for user in self.users:
@@ -43,5 +44,4 @@ class Prompt:
                 self.next_prompt()
                 
     def end_game(self):
-        # Implementation for ending the game
         pass
