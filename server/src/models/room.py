@@ -9,8 +9,8 @@ class Room:
         self.prompts = []
         self.leaderboard = {}
 
-    def add_player(self, player):
-        self.players.append(player)
+    def add_player(self, player_id):
+        self.players.append(player_id)
 
     def get_players(self):
         return [player.name for player in self.players]
