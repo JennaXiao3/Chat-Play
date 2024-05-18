@@ -3,10 +3,15 @@ from typing import List
 
 class User:
     users: List['User'] = []
+    
+    @classmethod
+    def find_by_id(cls, id):
+        for user in cls.users:
+            if user.id == id:
+                return user
 
     def __init__(self, name: str):
         self.name: str = name
-        self.id = self.generate_id()
         self.nickname: str = self.generate_nickname()
         self.id: int = self.generate_id()
         User.users.append(self)
@@ -22,3 +27,10 @@ class User:
     @classmethod
     def get_all_users(cls) -> List['User']:
         return cls.users
+    
+    def __dict__(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "nickname": self.nickname
+        }

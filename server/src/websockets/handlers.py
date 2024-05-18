@@ -21,10 +21,12 @@ def join_room(user_name, room_code):
     room = Room.find_by_code(room_code)
 
     room.add_user_id(user.id)
+    
+    print(room.user_ids)
 
     response = {
         "room_id": room.id,
-        "users": [dict(user) for user in room.user_ids],
+        "users": room.user_ids
     }
     
     socketio.emit("joined-room", json.dumps(response))
