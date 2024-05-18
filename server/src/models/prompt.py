@@ -26,6 +26,9 @@ class Prompt:
             self.end_game()
             return None
         return self.prompts[self.current_prompt_index]
+
+    def end_game(self):
+        print("PlaceHolder.")
     
     def submit_answer(self, user_id: int, answer: str):
         prompt = self.current_prompt()
@@ -68,6 +71,3 @@ class PromptGenerator:
     
     def shuffle_prompts(self):
         random.shuffle(self.prompts)
-
-    def end_game(self):
-        print("PlaceHolder.")
