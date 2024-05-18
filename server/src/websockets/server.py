@@ -7,6 +7,7 @@ from . import handlers
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+
 @socketio.on('message')
 def handle_message(message: str):
     data = json.loads(message)
@@ -20,6 +21,9 @@ def handle_message(message: str):
             
         case "start-room":
             handlers.start_room(data["userId"], data["roomCode"])
+            
+        case "add-message":
+            handlers.add_message(data["userId"], data["roomCode"], data["messageText"])
         
         case _:
             raise ValueError("no action matched")

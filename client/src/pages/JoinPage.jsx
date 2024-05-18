@@ -7,7 +7,7 @@ import UserContext from "../contexts/UserContext";
 
 function JoinPage() {
   const [roomCode, setRoomCode] = useState("");
-  const [user] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   const joinRoomHandler = () => {
     socket.send(JSON.stringify({
@@ -19,7 +19,10 @@ function JoinPage() {
 
   useEffect(() => {
     socket.on("joined-room", data => {
-      console.log(`yo what is this${data}`)
+      data = JSON.parse(data)
+      setUser(user => {
+        return { ...user, id: data.user_id, roomCode: data.room_code }
+      });
     })
   })
 

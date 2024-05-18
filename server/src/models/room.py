@@ -7,12 +7,14 @@ class Room:
     
     @classmethod
     def find_by_code(cls, code: int):
-        print("hi")
-        print([room.code for room in cls.rooms])
-        print(code)
-        print("lol")
         for room in cls.rooms:
             if room.code == code:
+                return room
+            
+    @classmethod
+    def find_by_id(cls, id: int):
+        for room in cls.rooms:
+            if room.id == id:
                 return room
     
     def __init__(self, host_id):
@@ -23,7 +25,6 @@ class Room:
         self.game_started = False
         self.prompt_ids = []
         self.leaderboard = {}
-        self.messages = []  # Define messages attribute
         self.user_guesses: UserGuesses = {} 
         Room.rooms.append(self)
 
@@ -50,7 +51,4 @@ class Room:
         self.prompt_ids.append(prompt_id)
 
     def remove_user_id(self, user_id):
-        self.users = [user for user in self.users if user.user_id != user_id] 
-
-    def add_message(self, user_id, message):
-        self.messages.append({'user_id': user_id, 'message': message})
+        self.users = [user for user in self.users if user.user_id != user_id]

@@ -3,21 +3,37 @@ import { Box, Button, Grid, Typography, TextField } from "@mui/material";
 import UserContext from "../contexts/UserContext";
 import { socket } from "../websockets";
 import Countdown from "react-countdown";
+import ChatMessages from "./ChatMessages";
 
 
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
-  const [prompt, setPrompt] = useState("What is your favourite animal?");
+  const [prompts, setPrompts] = useState([]);
+  const [chatMessages, setChatMessages] = useState([])
   const [message, setMessage] = useState("");
   const [timeEnd, setTimeEnd] = useState(Date.now() + 100000); // TODO: implement time thingy
 
   const sendMessage = () => {
     // TODO: send user's message to server
+    console.log(user)
+
+    socket.send(JSON.stringify({
+      action: "add-message",
+      userId: user.id,
+      roomCode: user.roomCode,
+      messageText: message
+    }))
     console.log(message);
   };
 
   useEffect(() => {
-    socket.on("new-prompt", data => console.log(data))
+    socket.on("new-prompt", data => {
+      console.log(data)
+    })
+
+    socket.on("update-chat", data => {
+      console.log(JSON.parse(data))
+    })
   })
   
   const timeRenderer = ({ minutes, seconds, completed }) => {
@@ -108,14 +124,14 @@ function GamePage() {
             }}
             p="1.5rem 2rem"
           >
-            <Typography color="#262332">{prompt}</Typography>
+            <Typography color="#262332">{"what the fuck"}</Typography>
             <Box>
               <Countdown date={timeEnd} renderer={timeRenderer} />
             </Box>
           </Box>
         </Box>
         <Box width="100%" height="100%" p="1.5rem 2rem">
-          <Typography>chat goes here</Typography>
+          <ChatMessages messages = {chatMessages}/>
         </Box>
         <Grid
           xs={8}

@@ -1,10 +1,10 @@
-from src.models import User, Room, Prompt
+from src.models import User, Room, Prompt, Message
 import json
 
 from .server import socketio
 
 
-def update_lobby(room):
+def update_lobby(room: Room):
     response = {
         "room_id": room.id,
         "users": [User.find_by_id(user_id).__dict__ for user_id in room.user_ids],
@@ -12,6 +12,41 @@ def update_lobby(room):
 
     socketio.emit("updated-lobby", json.dumps(response))
 
+
+def update_chat(room: Room):
+    prompts: list[Prompt] = [Prompt.find_by_id(prompt_id) for prompt_id in room.prompt_ids]
+    
+    chat = {}
+    
+    for prompt in prompts:
+        messages = []
+        for message_id in prompt.message_ids:
+            message = Message.find_by_id(message_id)
+            messages.append(message.__dict__)
+        chat[prompt.content] = messages
+    
+    response = {
+        "room_id": room.id,
+        "chat": chat
+    }
+    
+    socketio.emit("update-chat", json.dumps(response))
+
+
+def send_new_prompt(room: Room):
+    prompt = Prompt()
+    
+    room.add_prompt_id(prompt.id)
+    
+    response = {
+        "room_id": room.id,
+        "prompt_content": prompt.content,
+        "deletion_time": prompt.deletion_time.strftime(Prompt.time_format)
+        
+    }
+    
+    socketio.emit("new-prompt", response)
+    
 
 def create_room(host_name):
     host = User(host_name)
@@ -34,9 +69,7 @@ def join_room(user_name, room_code):
 
     room.add_user_id(user.id)
 
-    print(room.user_ids)
-
-    response = {"room_id": room.id, "user_id": user.id}
+    response = {"room_id": room.id, "user_id": user.id, "room_code": room.code}
 
     socketio.emit("joined-room", json.dumps(response))
 
@@ -53,14 +86,27 @@ def start_room(user_id: int, room_code: int):
 
     socketio.emit("started-game")
     
-    prompt = Prompt(room.id)
+    send_new_prompt(room)
+
+
+def add_message(user_id: int, room_code: int, message_text: str):
+    print("hi")
+    print(user_id, room_code, message_text)
+    room: Room = Room.find_by_code(room_code)
     
-    room.add_prompt_id(prompt.id)
+    message = Message(user_id, message_text)
     
-    response = {
-        "room_id": room.id,
-        "prompt_content": prompt.content,
-        "deletion_time": prompt.deletion_time
-    }
+    prompt_id = room.prompt_ids[-1]
+    prompt: Prompt = Prompt.find_by_id(prompt_id)
     
-    socketio.emit("new-prompt", response)
+    prompt.add_message_id(message.id)
+    
+    update_chat(room)
+    
+    
+    responded_user_ids = set([Message.find_by_id(message_id).user_id for message_id in prompt.message_ids])
+    room_user_ids = room.user_ids
+    
+    prompt_is_answered_by_all_users = len(responded_user_ids) == len(room_user_ids)
+    if prompt_is_answered_by_all_users:
+        send_new_prompt(room)
