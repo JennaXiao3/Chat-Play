@@ -13,12 +13,10 @@ def handle_message(message: str):
     
     match data["action"]:
         case "create-room":
-            response = handlers.create_room(data["hostName"])
-            socketio.emit("created-room", json.dumps(response))
+            handlers.create_room(data["hostName"])
             
         case "join-room":
-            response = handlers.join_room(data["userName"], data["roomCode"])
-            socketio.emit("joined-room", json.dumps(response))
+            handlers.join_room(data["userName"], data["roomCode"])
             
         case "start-room":
             handlers.start_room(data["userId"], data["roomCode"])
