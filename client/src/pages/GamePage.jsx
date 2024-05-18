@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Grid, Typography, TextField } from "@mui/material";
 import UserContext from "../contexts/UserContext";
 import { socket } from "../websockets";
+import Countdown from "react-countdown";
+
 
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
   const [prompt, setPrompt] = useState("What is your favourite animal?");
   const [message, setMessage] = useState("");
-  const [timeLeft, setTimeLeft] = useState("0:59"); // TODO: implement time thingy
+  const [timeEnd, setTimeEnd] = useState(Date.now() + 100000); // TODO: implement time thingy
 
   const sendMessage = () => {
     // TODO: send user's message to server
@@ -18,6 +20,21 @@ function GamePage() {
     socket.on("new-prompt", data => console.log(data))
   })
   
+  const timeRenderer = ({ minutes, seconds, completed }) => {
+    if (completed) {
+      return <Typography color="#262332">DONE</Typography>;
+    } else {
+      if (minutes == 0) {
+        return <Typography color="#262332">{seconds}s left</Typography>;
+      } else {
+        return (
+          <Typography color="#262332">
+            {minutes}:{seconds} mins left
+          </Typography>
+        );
+      }
+    }
+  };
   return (
     <Box
       sx={{
@@ -92,7 +109,9 @@ function GamePage() {
             p="1.5rem 2rem"
           >
             <Typography color="#262332">{prompt}</Typography>
-            <Box>{timeLeft}</Box>
+            <Box>
+              <Countdown date={timeEnd} renderer={timeRenderer} />
+            </Box>
           </Box>
         </Box>
         <Box width="100%" height="100%" p="1.5rem 2rem">
