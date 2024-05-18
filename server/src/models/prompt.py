@@ -6,7 +6,6 @@ class Prompt:
     def change_text(self, new_text):
         self.text = new_text
 
-        
     def current_prompt(self):
         if 0 <= self.current_prompt_index<len(self.prompts):
             return self.prompts[self.current_prompt_index]

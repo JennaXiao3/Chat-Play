@@ -3,6 +3,7 @@ import BasePage from "./BasePage";
 import { Button, Typography } from "@mui/material";
 import gameIcon from "../images/gameIcon.svg";
 import IconHeading from "./IconHeading";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
@@ -12,8 +13,12 @@ function HomePage() {
         We will give you prompts and nicknames. Chat with your peers and
         determine who is behind each nickname!
       </Typography>
-      <Button variant="fill">JOIN ROOM</Button>
-      <Button variant="outlined">CREATE ROOM</Button>
+      <Button variant="fill" component={Link} to="/name/join">
+        JOIN ROOM
+      </Button>
+      <Button variant="outlined" component={Link} to="/name/create">
+        CREATE ROOM
+      </Button>
     </BasePage>
   );
 }
