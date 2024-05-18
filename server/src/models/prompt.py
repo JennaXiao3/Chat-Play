@@ -2,12 +2,12 @@ import random
 import time
 from typing import List, Dict, Optional
 from src.models.user import User
-from src.models.user import room
+from src.utils.gen_id import gen_id
 
 class Prompt:
-    def __init__(self, prompt_id: int, text: str):
-        self.prompt_id: int = prompt_id
-        self.text: str = text
+    def __init__(self):
+        self.prompt_id: int = gen_id("prompt")
+        self.text: str = ""
         self.current_prompt_index: int = 0
         self.prompts: List[str] = []
         self.user_answers: Dict[int, List[Optional[str]]] = {}
