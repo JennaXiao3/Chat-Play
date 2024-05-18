@@ -4,6 +4,15 @@ from src.utils.gen_id import gen_id
 import time
 
 class Room:
+    rooms = []
+    
+    @classmethod
+    def find_by_code(cls, code: int):
+        for room in cls.rooms:
+            if room.code == code:
+                return room
+        return None
+    
     def __init__(self, hostid):
         self.id = str(uuid.uuid4())
         self.hostid = hostid
@@ -12,6 +21,7 @@ class Room:
         self.prompts = []
         self.leaderboard = {}
         self.messages = []  # Define messages attribute
+        Room.rooms.append(self)
 
     def add_user(self, user):
         self.users.append(user)  
