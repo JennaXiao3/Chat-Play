@@ -2,14 +2,15 @@ import random
 import time
 from typing import List, Dict, Optional
 from src.models.user import User
-from src.utils.gen_id import gen_id
+
+current_prompt_index: int = 0
+prompts: List[str] = []
 
 class Prompt:
-    def __init__(self):
-        self.prompt_id: int = gen_id("prompt")
-        self.text: str = ""
-        self.current_prompt_index: int = 0
-        self.prompts: List[str] = []
+    def __init__(self, prompt_id: int, text: str):
+        self.prompt_id: int = prompt_id
+        self.text: str = text
+
         self.user_answers: Dict[int, List[Optional[str]]] = {}
         self.users: List[User] = []  # Assuming there's a User class with user_id attribute
 
@@ -17,16 +18,16 @@ class Prompt:
         self.text = new_text
 
     def current_prompt(self) -> Optional[str]:
-        if 0 <= self.current_prompt_index < len(self.prompts):
-            return self.prompts[self.current_prompt_index]
+        if 0 <= current_prompt_index < len(prompts):
+            return prompts[current_prompt_index]
         return None
     
     def next_prompt(self) -> Optional[str]:
-        self.current_prompt_index += 1
-        if self.current_prompt_index >= len(self.prompts):
+        current_prompt_index += 1
+        if current_prompt_index >= len(prompts):
             self.end_game()
             return None
-        return self.prompts[self.current_prompt_index]
+        return prompts[current_prompt_index]
     
     def end_game(self):
         print("PlaceHolder.")
@@ -49,7 +50,7 @@ class Prompt:
                 self.next_prompt()
 class PromptGenerator:
     def __init__(self):
-        self.prompts = [
+        prompts = [
             "What is your favorite color?",
             "What is your favorite food?",
             "Describe your dream vacation.",
@@ -63,12 +64,12 @@ class PromptGenerator:
         ]
 
     def add_prompt(self, prompt_text: str):
-        self.prompts.append(prompt_text)
+        prompts.append(prompt_text)
 
     def generate_prompt(self) -> str:
-        if self.prompts:
-            return self.prompts.pop(0)
+        if prompts:
+            return prompts.pop(0)
         return ""
     
     def shuffle_prompts(self):
-        random.shuffle(self.prompts)
+        random.shuffle(prompts)
