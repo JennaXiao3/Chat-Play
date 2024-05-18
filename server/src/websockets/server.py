@@ -2,7 +2,7 @@ from flask import Flask
 from flask_socketio import SocketIO, emit
 import json
 
-import handlers
+from . import handlers
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -14,16 +14,19 @@ def handle_message(message: str):
     
     match data["action"]:
         case "create_room":
-            handlers.create_room(data["user_id"])
+            message = json.dumps(handlers.create_room(data["user_id"]))
+            socketio.emit("created-room", message)
             
         case "join_room":
-            handlers.join_room(data["room_id"])
+            message = handlers.join_room(data["room_id"])
+            socketio.emit("joined-room", message)
             
         case "start_room":
-            handlers.start_room(data["user_id"], data["room_code"])
+            response = handlers.start_room(data["user_id"], data["room_code"])
         
         case _:
             raise ValueError("no action matched")
-
-if __name__ == '__main__':
+    
+    
+def start():
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
