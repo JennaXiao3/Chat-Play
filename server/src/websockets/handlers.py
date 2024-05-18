@@ -3,6 +3,14 @@ import json
 
 from .server import socketio
 
+def update_lobby(room):
+    response = {
+        "room_id": room.id,
+        "users": [User.find_by_id(user_id).__dict__ for user_id in room.user_ids]
+    }
+    
+    socketio.emit("updated-lobby", json.dumps(response))
+
 def create_room(host_name):
     host = User(host_name)
     room = Room(host.id)
@@ -14,6 +22,8 @@ def create_room(host_name):
     }
     
     socketio.emit("created-room", json.dumps(response))
+    
+    update_lobby(room)
 
 
 def join_room(user_name, room_code):
@@ -30,7 +40,10 @@ def join_room(user_name, room_code):
     }
     
     socketio.emit("joined-room", json.dumps(response))
-
+    
+    update_lobby(room)
+    
+    
 def start_room(user_id: int, room_code: int):
     room = Room.find_by_code(room_code)
 

@@ -7,10 +7,13 @@ class Room:
     
     @classmethod
     def find_by_code(cls, code: int):
+        print("hi")
+        print([room.code for room in cls.rooms])
+        print(code)
+        print("lol")
         for room in cls.rooms:
             if room.code == code:
                 return room
-        return None
     
     def __init__(self, host_id):
         self.id = gen_id("room")

@@ -19,7 +19,9 @@ function RoomPage() {
 
 
   useEffect(() => {
-    socket.on("joined-room", data => console.log(data))
+    socket.on("updated-lobby", data => {
+      setPlayersJoined(JSON.parse(data).users.map(user => user.nickname))
+    })
   })
 
   return (

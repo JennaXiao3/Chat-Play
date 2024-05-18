@@ -17,6 +17,10 @@ function JoinPage() {
     }))
   };
 
+  useEffect(() => {
+    socket.on("joined-room", data => console.log(data))
+  })
+
   return (
     <BasePage>
       <Typography variant="h1">JOIN A ROOM</Typography>
