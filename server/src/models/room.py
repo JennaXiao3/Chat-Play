@@ -1,6 +1,7 @@
 from typing import Union
 from user import User
 from src.utils.gen_id import gen_id
+import time
 
 class Room:
     def __init__(self, hostid):
@@ -46,8 +47,18 @@ class Room:
         return self.prompts[self.current_prompt_index]
     
     def submit_answer(self, user_id, answer):
-        prompt = self.get_current_prompt()
+        prompt = self.current_prompt()
         if prompt:
             if user_id not in self.user_answers:
                 self.user_answers[user_id] = []
             self.user_answers[user_id].append(answer)
+            
+            if len(self.user_answers) == len(self.users):
+                time.sleep(120) 
+                self.next_prompt()
+                
+                for user in self.users:
+                    if user.user_id not in self.user_answers:
+                        self.user_answers[user.user_id] = [None]
+                
+                self.next_prompt()
