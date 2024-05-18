@@ -1,5 +1,4 @@
 import time
-import typing
 from typing import List, Dict, Optional
 from src.models.user import User
 
