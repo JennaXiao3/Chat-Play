@@ -1,6 +1,6 @@
 import time
 from typing import List, Dict, Optional
-from server.src.models.user import User
+from src.models.user import User
 
 class Prompt:
     def __init__(self, prompt_id: int, text: str):
