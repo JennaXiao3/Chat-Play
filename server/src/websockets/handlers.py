@@ -1,4 +1,4 @@
-from server.src.models import User, Room
+from src.models import User, Room
 
 
 def create_room(host_name: str):

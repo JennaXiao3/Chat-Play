@@ -1,5 +1,5 @@
 from typing import Union
-from user import User
+from src.models.user import User
 from src.utils.gen_id import gen_id
 import time
 
