@@ -15,7 +15,7 @@ class Room:
     def __init__(self, host_id):
         self.id = gen_id("room")
         self.host_id = host_id
-        self.user_ids = []
+        self.user_ids = [host_id]
         self.code = 12312
         self.game_started = False
         self.prompts = []

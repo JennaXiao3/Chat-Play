@@ -26,7 +26,7 @@ def join_room(user_name, room_code):
 
     response = {
         "room_id": room.id,
-        "users": room.user_ids
+        "users": [User.find_by_id(user_id).__dict__ for user_id in room.user_ids]
     }
     
     socketio.emit("joined-room", json.dumps(response))

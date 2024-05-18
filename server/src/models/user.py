@@ -27,10 +27,3 @@ class User:
     @classmethod
     def get_all_users(cls) -> List['User']:
         return cls.users
-    
-    def __dict__(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "nickname": self.nickname
-        }
