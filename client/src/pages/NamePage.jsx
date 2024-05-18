@@ -14,10 +14,7 @@ function NamePage() {
         action: "create-room",
         hostName: name
       }))
-
-      
     }
-    
   }
 
   useEffect(() => {
