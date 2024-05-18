@@ -1,6 +1,6 @@
-import uuid
 from typing import Union
-
+from user import User
+from src.utils.gen_id import gen_id
 
 class Room:
     rooms = []
@@ -13,7 +13,7 @@ class Room:
         return None
     
     def __init__(self, host_id):
-        self.id = str(uuid.uuid4())
+        self.room_id = gen_id("room") 
         self.host_id = host_id
         self.code = 12312
         self.user_ids = []
@@ -26,7 +26,7 @@ class Room:
         self.user_ids.append(user_id)
 
     def get_users(self):
-        return [users.name for user in self.users]
+        return [User.users.name for user in self.users]
 
     def start_game(self):
         self.game_started = True

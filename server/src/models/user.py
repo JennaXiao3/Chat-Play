@@ -1,6 +1,7 @@
 import random
 
 class User:
+    users = []
     def __init__(self, name):
         self.name = name
         self.nickname = self.generate_nickname()
