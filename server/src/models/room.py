@@ -13,21 +13,18 @@ class Room:
                 return room
         return None
     
-    def __init__(self, hostid):
+    def __init__(self, host_id):
         self.id = str(uuid.uuid4())
-        self.hostid = hostid
-        self.users = []
+        self.host_id = host_id
+        self.user_ids = []
         self.game_started = False
         self.prompts = []
         self.leaderboard = {}
         self.messages = []  # Define messages attribute
         Room.rooms.append(self)
 
-    def add_user(self, user):
-        self.users.append(user)  
-
-    def get_users(self):
-        return [user.nickname for user in self.users]  
+    def add_user_id(self, user_id):
+        self.user_ids.append(user_id)
 
     def start_game(self):
         self.game_started = True
