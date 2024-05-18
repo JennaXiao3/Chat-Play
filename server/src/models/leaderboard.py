@@ -8,7 +8,7 @@ def calculate_scores(ug: UserGuesses) -> Dict[UserId, int]:
     scores = dict()
     for u in User.users:
         score = 0
-        g = ug[u.id] 
+        g = ug[u] 
         for guess in g:
             for other_user in User.users:
                 if other_user.nickname == guess[0] and other_user.name == guess[1]:
@@ -23,6 +23,6 @@ class Leaderboard:
     def get_score(self, user_id) -> int:
         return self.scores.get(user_id, 0)
 
-    def get_leader(self) -> Tuple[UserId, Optional[int]]:
+    def get_leader(self) -> Optional[Tuple[UserId, int]]:
         leader_id = max(self.scores, key=lambda user_id: self.scores[user_id])
         return (leader_id, self.scores.get(leader_id))
