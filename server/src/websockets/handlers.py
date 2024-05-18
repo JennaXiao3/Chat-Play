@@ -18,7 +18,7 @@ def join_room(user_name: str, room_code: int):
     user = User(user_name)
     room = Room.find_by_code(room_code)
     
-    room.add_player(user.id)
+    room.add_user_id(user.id)
     
     return {
         "user_id": user.id
