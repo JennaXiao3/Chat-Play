@@ -1,6 +1,6 @@
-from typing import Union
-from src.models.user import User
 from src.utils.gen_id import gen_id
+from src.models.guesses import UserGuesses, Guesses
+from src.models.leaderboard import Leaderboard
 
 class Room:
     rooms = []
@@ -20,6 +20,7 @@ class Room:
         self.prompts = []
         self.leaderboard = {}
         self.messages = []  # Define messages attribute
+        self.user_guesses: UserGuesses = {} 
         Room.rooms.append(self)
 
     def add_user_id(self, user_id):
@@ -33,6 +34,13 @@ class Room:
         self.game_started = False
         # Add logic to calculate points and update leaderboard
         # Do this later
+        if len(self.user_guesses) == 0:
+            print("There are no guesses. This may be a mistake")
+
+        self.leaderboard = Leaderboard(self.user_guesses)
+
+    def add_guesses(self, user_id: int, guesses: Guesses):
+        self.user_guesses[user_id] = guesses
 
 
     def remove_player(self, user_id):
