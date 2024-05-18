@@ -9,6 +9,7 @@ import JoinPage from "./pages/JoinPage";
 import RoomPage from "./pages/RoomPage";
 import GamePage from "./pages/GamePage";
 import UserContext from "./contexts/UserContext";
+import LeaderboardPage from "./pages/LeaderboardPage";
 
 function App() {
   useEffect(() => {
@@ -43,6 +44,7 @@ function App() {
             <Route path="/join" element={<JoinPage />} />
             <Route path="/room/:playerType" element={<RoomPage />} />
             <Route path="/game" element={<GamePage />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>
