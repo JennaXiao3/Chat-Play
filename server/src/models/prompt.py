@@ -1,4 +1,4 @@
-from random import random
+import random
 import time
 from typing import List, Dict, Optional
 from src.models.user import User
@@ -68,3 +68,6 @@ class PromptGenerator:
     
     def shuffle_prompts(self):
         random.shuffle(self.prompts)
+
+    def end_game(self):
+        print("PlaceHolder.")
