@@ -31,7 +31,6 @@ def join_room(user_name, room_code):
     
     socketio.emit("joined-room", json.dumps(response))
 
-
 def start_room(user_id: int, room_code: int):
     room = Room.find_by_code(room_code)
 

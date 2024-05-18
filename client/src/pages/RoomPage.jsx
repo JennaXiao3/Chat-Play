@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BasePage from "./BasePage";
 import { Typography, Button } from "@mui/material";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
+import { socket } from "../websockets";
 
 function RoomPage() {
   const [roomCode, setRoomCode] = useState("654876"); // TODO: set actual room code
@@ -15,6 +16,11 @@ function RoomPage() {
   ]); // TODO: get players who joined
   const { playerType } = useParams(); // will be "player" or "host"
   const [user, setUser] = useContext(UserContext); // TODO: add nickname to user
+
+
+  useEffect(() => {
+    socket.on("joined-room", data => console.log(data))
+  })
 
   return (
     <BasePage>
