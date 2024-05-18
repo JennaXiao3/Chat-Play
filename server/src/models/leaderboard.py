@@ -23,5 +23,6 @@ class Leaderboard:
     def get_score(self, user_id) -> int:
         return self.scores.get(user_id, 0)
 
-    def get_leader(self) -> Optional[Tuple[UserId, int]]:
-        return max(self.scores, key=self.scores.get) 
+    def get_leader(self) -> Tuple[UserId, Optional[int]]:
+        leader_id = max(self.scores, key=lambda user_id: self.scores[user_id])
+        return (leader_id, self.scores.get(leader_id))
