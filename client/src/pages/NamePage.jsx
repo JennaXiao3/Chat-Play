@@ -4,8 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Button, Typography, TextField } from "@mui/material";
 
 function NamePage() {
-  const { type } = useParams();
-  const [nickname, setNickname] = useState("[replace with nickname]"); // TODO: get nickname from server
+  const { type } = useParams(); // will be "join" or "create"
   const [name, setName] = useState("");
 
   return (
@@ -18,12 +17,10 @@ function NamePage() {
           setName(event.target.value);
         }}
       />
-      <Typography>your nickname is</Typography>
-      <Typography>{nickname}</Typography>
       <Button
         variant="outlined"
         component={Link}
-        to={type == "join" ? "/join" : "/room/host"}
+        to={type === "join" ? "/join" : "/room/host"}
       >
         CONTINUE
       </Button>

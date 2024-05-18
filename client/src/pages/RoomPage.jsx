@@ -12,8 +12,8 @@ function RoomPage() {
     "Grant",
     "Jenna",
   ]); // TODO: get players who joined
-  const [isHost, setIsHost] = useState(true);
-  const { playerType } = useParams();
+  const { playerType } = useParams(); // will be "player" or "host"
+  const [nickname, setNickname] = useState("[replace with nickname]"); // TODO: get nickname from server
 
   return (
     <BasePage>
@@ -22,7 +22,8 @@ function RoomPage() {
       {playersJoined.map((player) => (
         <Typography>{player}</Typography>
       ))}
-      {playerType == "host" ? (
+      <Typography>your nickname is {nickname}</Typography>
+      {playerType === "host" ? (
         <Button variant="fill" component={Link} to="/game">
           Start Game
         </Button>
