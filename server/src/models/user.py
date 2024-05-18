@@ -4,8 +4,9 @@ from typing import List
 class User:
     users: List['User'] = []
 
-    def __init__(self, name: str):
+    def __init__(self, user_id: int, name: str):
         self.name: str = name
+        self.id = user_id
         self.nickname: str = self.generate_nickname()
         self.id: int = self.generate_id()
         User.users.append(self)
