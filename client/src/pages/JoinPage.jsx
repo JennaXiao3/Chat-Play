@@ -18,7 +18,9 @@ function JoinPage() {
   };
 
   useEffect(() => {
-    socket.on("joined-room", data => console.log(data))
+    socket.on("joined-room", data => {
+      console.log(`yo what is this${data}`)
+    })
   })
 
   return (

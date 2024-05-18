@@ -3,13 +3,15 @@ import json
 
 from .server import socketio
 
+
 def update_lobby(room):
     response = {
         "room_id": room.id,
-        "users": [User.find_by_id(user_id).__dict__ for user_id in room.user_ids]
+        "users": [User.find_by_id(user_id).__dict__ for user_id in room.user_ids],
     }
-    
+
     socketio.emit("updated-lobby", json.dumps(response))
+
 
 def create_room(host_name):
     host = User(host_name)
@@ -20,9 +22,9 @@ def create_room(host_name):
         "room_code": room.code,
         "user_id": host.id,
     }
-    
+
     socketio.emit("created-room", json.dumps(response))
-    
+
     update_lobby(room)
 
 
@@ -31,19 +33,16 @@ def join_room(user_name, room_code):
     room = Room.find_by_code(room_code)
 
     room.add_user_id(user.id)
-    
+
     print(room.user_ids)
 
-    response = {
-        "room_id": room.id,
-        "users": [User.find_by_id(user_id).__dict__ for user_id in room.user_ids]
-    }
-    
+    response = {"room_id": room.id, "user_id": user.id}
+
     socketio.emit("joined-room", json.dumps(response))
-    
+
     update_lobby(room)
-    
-    
+
+
 def start_room(user_id: int, room_code: int):
     room = Room.find_by_code(room_code)
 
@@ -51,5 +50,5 @@ def start_room(user_id: int, room_code: int):
         raise ValueError("user id is not the host of the room")
 
     room.start_game()
-    
+
     socketio.emit("started-game")

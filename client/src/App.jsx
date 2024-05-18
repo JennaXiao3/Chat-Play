@@ -26,7 +26,7 @@ function App() {
     );
   };
 
-  const [user, setUser] = useState({ name: "", nickname: "" });
+  const [user, setUser] = useState({ name: "", nickname: "", id: null, roomCode: null });
 
   return (
     <ThemeProvider theme={theme}>

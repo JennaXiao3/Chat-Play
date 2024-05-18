@@ -22,7 +22,16 @@ function RoomPage() {
     socket.on("updated-lobby", data => {
       setPlayersJoined(JSON.parse(data).users.map(user => user.nickname))
     })
+    console.log(user)
   })
+
+  const startGameHandler = () => {
+    socket.send(JSON.stringify({
+      action: "start-room",
+      userId: user.id,
+      roomCode: user.roomCode
+    }))
+  }
 
   return (
     <BasePage>
@@ -33,7 +42,7 @@ function RoomPage() {
       ))}
       <Typography>your nickname is {user.nickname}</Typography>
       {playerType === "host" ? (
-        <Button variant="fill" component={Link} to="/game">
+        <Button variant="fill" component={Link} to="/game" onClick={startGameHandler}>
           Start Game
         </Button>
       ) : (

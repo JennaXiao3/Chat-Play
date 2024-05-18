@@ -21,7 +21,12 @@ function NamePage() {
   };
 
   useEffect(() => {
-    socket.on("created-room", (data) => console.log(data));
+    socket.on("created-room", (data) => {
+      data = JSON.parse(data)
+      setUser(user => {
+        return { ...user, id: data.user_id, roomCode: data.room_code }
+      });
+    });
   });
 
   return (
