@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { socket } from "./websockets";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -8,6 +8,7 @@ import NamePage from "./pages/NamePage";
 import JoinPage from "./pages/JoinPage";
 import RoomPage from "./pages/RoomPage";
 import GamePage from "./pages/GamePage";
+import UserContext from "./contexts/UserContext";
 
 function App() {
   useEffect(() => {
@@ -25,17 +26,21 @@ function App() {
     );
   };
 
+  const [user, setUser] = useState({ name: "", nickname: "" });
+
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/name/:type" element={<NamePage />} />
-          <Route path="/join" element={<JoinPage />} />
-          <Route path="/room/:playerType" element={<RoomPage />} />
-          <Route path="/game" element={<GamePage />} />
-        </Routes>
-      </BrowserRouter>
+      <UserContext.Provider value={[user, setUser]}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/name/:type" element={<NamePage />} />
+            <Route path="/join" element={<JoinPage />} />
+            <Route path="/room/:playerType" element={<RoomPage />} />
+            <Route path="/game" element={<GamePage />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
     </ThemeProvider>
   );
 }

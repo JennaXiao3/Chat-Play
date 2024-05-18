@@ -1,5 +1,5 @@
+import random
 import time
-import typing
 from typing import List, Dict, Optional
 from src.models.user import User
 
@@ -26,6 +26,9 @@ class Prompt:
             self.end_game()
             return None
         return self.prompts[self.current_prompt_index]
+
+    def end_game(self):
+        print("PlaceHolder.")
     
     def submit_answer(self, user_id: int, answer: str):
         prompt = self.current_prompt()
@@ -43,6 +46,28 @@ class Prompt:
                         self.user_answers[user.id] = [None]
                 
                 self.next_prompt()
-                
-    def end_game(self):
-        pass
+class PromptGenerator:
+    def __init__(self):
+        self.prompts = [
+            "What is your favorite color?",
+            "What is your favorite food?",
+            "Describe your dream vacation.",
+            "What is your favorite book?",
+            "What is your favorite movie?",
+            "What is your favorite hobby?",
+            "If you could have any superpower, what would it be?",
+            "What is your biggest fear?",
+            "What is your proudest accomplishment?",
+            "If you could meet any historical figure, who would it be?"
+        ]
+
+    def add_prompt(self, prompt_text: str):
+        self.prompts.append(prompt_text)
+
+    def generate_prompt(self) -> str:
+        if self.prompts:
+            return self.prompts.pop(0)
+        return ""
+    
+    def shuffle_prompts(self):
+        random.shuffle(self.prompts)
