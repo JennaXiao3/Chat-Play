@@ -1,9 +1,9 @@
 import uuid
 
 class Room:
-    def __init__(self, host):
+    def __init__(self, hostid):
         self.id = str(uuid.uuid4())
-        self.host = host
+        self.hostid = hostid
         self.players = []
         self.game_started = False
         self.prompts = []
@@ -11,7 +11,7 @@ class Room:
 
     def add_player(self, player):
         self.players.append(player)
-        
+
     def get_players(self):
         return [player.name for player in self.players]
 
