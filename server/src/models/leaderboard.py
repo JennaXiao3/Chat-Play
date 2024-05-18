@@ -8,7 +8,7 @@ def calculate_scores(ug: UserGuesses) -> Dict[UserId, int]:
     scores = dict()
     for u in User.users:
         score = 0
-        g = ug[u] 
+        g = ug[u.id] 
         for guess in g:
             for other_user in User.users:
                 if other_user.nickname == guess[0] and other_user.name == guess[1]:
