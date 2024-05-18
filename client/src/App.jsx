@@ -26,7 +26,12 @@ function App() {
     );
   };
 
-  const [user, setUser] = useState({ name: "", nickname: "", id: null, roomCode: null });
+  const [user, setUser] = useState({
+    name: "Jenna",
+    nickname: "Broski",
+    id: null,
+    roomCode: null,
+  });
 
   return (
     <ThemeProvider theme={theme}>
