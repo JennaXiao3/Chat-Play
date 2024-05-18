@@ -1,4 +1,4 @@
-from src.models import User, Room
+from src.models import User, Room, Prompt
 import json
 
 from .server import socketio
@@ -52,3 +52,15 @@ def start_room(user_id: int, room_code: int):
     room.start_game()
 
     socketio.emit("started-game")
+    
+    prompt = Prompt(room.id)
+    
+    room.add_prompt_id(prompt.id)
+    
+    response = {
+        "room_id": room.id,
+        "prompt_content": prompt.content,
+        "deletion_time": prompt.deletion_time
+    }
+    
+    socketio.emit("new-prompt", response)

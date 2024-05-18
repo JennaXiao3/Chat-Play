@@ -21,7 +21,7 @@ class Room:
         self.user_ids = [host_id]
         self.code = 12312
         self.game_started = False
-        self.prompts = []
+        self.prompt_ids = []
         self.leaderboard = {}
         self.messages = []  # Define messages attribute
         self.user_guesses: UserGuesses = {} 
@@ -45,9 +45,11 @@ class Room:
 
     def add_guesses(self, user_id: int, guesses: Guesses):
         self.user_guesses[user_id] = guesses
+        
+    def add_prompt_id(self, prompt_id):
+        self.prompt_ids.append(prompt_id)
 
-
-    def remove_player(self, user_id):
+    def remove_user_id(self, user_id):
         self.users = [user for user in self.users if user.user_id != user_id] 
 
     def add_message(self, user_id, message):

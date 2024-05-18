@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Grid, Typography, TextField } from "@mui/material";
 import UserContext from "../contexts/UserContext";
+import { socket } from "../websockets";
 
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
@@ -12,6 +13,11 @@ function GamePage() {
     // TODO: send user's message to server
     console.log(message);
   };
+
+  useEffect(() => {
+    socket.on("new-prompt", data => console.log(data))
+  })
+  
   return (
     <Box
       sx={{
