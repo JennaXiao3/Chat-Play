@@ -4,28 +4,32 @@ import BasePage from "./BasePage";
 import { Link } from "react-router-dom";
 import { socket } from "../websockets";
 import UserContext from "../contexts/UserContext";
+import IconHeading from "./IconHeading";
+import joinIcon from "../images/joinIcon.svg";
 
 function JoinPage() {
   const [roomCode, setRoomCode] = useState("");
   const [user] = useContext(UserContext);
 
   const joinRoomHandler = () => {
-    socket.send(JSON.stringify({
-      action: "join-room",
-      userName: user.name,
-      roomCode: parseInt(roomCode)
-    }))
+    socket.send(
+      JSON.stringify({
+        action: "join-room",
+        userName: user.name,
+        roomCode: parseInt(roomCode),
+      })
+    );
   };
 
   useEffect(() => {
-    socket.on("joined-room", data => {
-      console.log(`yo what is this${data}`)
-    })
-  })
+    socket.on("joined-room", (data) => {
+      console.log(`yo what is this${data}`);
+    });
+  });
 
   return (
     <BasePage>
-      <Typography variant="h1">JOIN A ROOM</Typography>
+      <IconHeading text="JOIN A ROOM" icon={joinIcon} />
       <Typography>Enter the room code:</Typography>
       <TextField
         sx={{ backgroundColor: "white" }}

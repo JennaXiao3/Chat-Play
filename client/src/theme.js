@@ -18,6 +18,7 @@ const theme = createTheme({
     body1: {
       color: "#B2B0BA",
       fontSize: "1rem",
+      fontWeight: 200,
     },
   },
   components: {

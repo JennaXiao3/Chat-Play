@@ -4,7 +4,6 @@ import UserContext from "../contexts/UserContext";
 import { socket } from "../websockets";
 import Countdown from "react-countdown";
 
-
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
   const [prompt, setPrompt] = useState("What is your favourite animal?");
@@ -17,14 +16,14 @@ function GamePage() {
   };
 
   useEffect(() => {
-    socket.on("new-prompt", data => console.log(data))
-  })
-  
+    socket.on("new-prompt", (data) => console.log(data));
+  });
+
   const timeRenderer = ({ minutes, seconds, completed }) => {
     if (completed) {
       return <Typography color="#262332">DONE</Typography>;
     } else {
-      if (minutes == 0) {
+      if (minutes === 0) {
         return <Typography color="#262332">{seconds}s left</Typography>;
       } else {
         return (
