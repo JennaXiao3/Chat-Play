@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BasePage from "./BasePage";
 import { useParams, Link } from "react-router-dom";
 import { Button, Typography, TextField } from "@mui/material";
+import { socket } from "../websockets";
 
 function NamePage() {
   const { type } = useParams(); // will be "join" or "create"
   const [name, setName] = useState("");
+
+  const onContinueHandler = () => {
+    if (type === "create") {
+      socket.send(JSON.stringify({
+        action: "create-room",
+        hostName: name
+      }))
+
+      
+    }
+    
+  }
+
+  useEffect(() => {
+    socket.on("created-room", data => console.log(data))
+  })
 
   return (
     <BasePage>
@@ -20,6 +37,7 @@ function NamePage() {
       <Button
         variant="outlined"
         component={Link}
+        onClick = {onContinueHandler}
         to={type === "join" ? "/join" : "/room/host"}
       >
         CONTINUE

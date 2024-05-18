@@ -13,9 +13,10 @@ class Room:
         return None
     
     def __init__(self, host_id):
-        self.room_id = gen_id("room")
+        self.id = gen_id("room")
         self.host_id = host_id
         self.user_ids = []
+        self.code = 12312
         self.game_started = False
         self.prompts = []
         self.leaderboard = {}
