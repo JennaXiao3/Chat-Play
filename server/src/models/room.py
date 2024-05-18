@@ -3,35 +3,24 @@ from user import User
 from src.utils.gen_id import gen_id
 
 class Room:
-    rooms = []
-    
-    @classmethod
-    def find_by_code(cls, code: int) -> Union["Room", None]:
-        for room in cls.rooms:
-            if room.code == code:
-                return room
-        return None
-    
-    def __init__(self, host_id):
-        self.room_id = gen_id("room") 
-        self.host_id = host_id
-        self.code = 12312
-        self.user_ids = []
+    def __init__(self, hostid):
+        self.id = str(uuid.uuid4())
+        self.hostid = hostid
+        self.users = []
         self.game_started = False
         self.prompts = []
         self.leaderboard = {}
-        Room.rooms.append(self)
+        self.messages = []  # Define messages attribute
 
-    def add_user_id(self, user_id):
-        self.user_ids.append(user_id)
+    def add_user(self, user):
+        self.users.append(user)  
 
     def get_users(self):
-        return [User.users.name for user in self.users]
+        return [user.nickname for user in self.users]  
 
     def start_game(self):
         self.game_started = True
-        # Add logic to generate prompts and start timer
-        # Do this later
+        self.current_prompt_index = 0
 
     def end_game(self):
         self.game_started = False
@@ -39,7 +28,26 @@ class Room:
         # Do this later
 
     def remove_player(self, user_id):
-        self.users = [user for user in self.users if user.id != user_id]
+        self.users = [user for user in self.users if user.user_id != user_id] 
 
     def add_message(self, user_id, message):
         self.messages.append({'user_id': user_id, 'message': message})
+
+    def current_prompt(self):
+        if 0 <= self.current_prompt_index<len(self.prompts):
+            return self.prompts[self.current_prompt_index]
+        return None
+    
+    def next_prompt(self):
+        self.current_prompt_index += 1
+        if self.current_prompt_index >= len(self.prompts):
+            self.end_game()
+            return None
+        return self.prompts[self.current_prompt_index]
+    
+    def submit_answer(self, user_id, answer):
+        prompt = self.get_current_prompt()
+        if prompt:
+            if user_id not in self.user_answers:
+                self.user_answers[user_id] = []
+            self.user_answers[user_id].append(answer)
