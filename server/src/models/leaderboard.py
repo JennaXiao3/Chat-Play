@@ -1,4 +1,4 @@
-from user import User
+from src.models.user import User
 from typing import Dict, Tuple, Optional
 from src.models.guesses import UserGuesses
 
