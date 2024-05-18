@@ -16,7 +16,6 @@ def calculate_scores() -> Dict[UserId, int]:
         scores[u.id] = score
     return scores
         
-
 class Leaderboard:
     def __init__(self):
         self.scores = calculate_scores()
