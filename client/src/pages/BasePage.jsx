@@ -33,6 +33,7 @@ function BasePage({ children }) {
         <Stack
           spacing={3}
           display="flex"
+          width="70%"
           justifyContent="center"
           alignItems="center"
         >

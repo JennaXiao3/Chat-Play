@@ -5,7 +5,6 @@ import { socket } from "../websockets";
 import Countdown from "react-countdown";
 import ChatMessages from "./ChatMessages";
 
-
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
   const [prompts, setPrompts] = useState([]);
@@ -35,12 +34,11 @@ function GamePage() {
       console.log(JSON.parse(data))
     })
   })
-  
   const timeRenderer = ({ minutes, seconds, completed }) => {
     if (completed) {
       return <Typography color="#262332">DONE</Typography>;
     } else {
-      if (minutes == 0) {
+      if (minutes === 0) {
         return <Typography color="#262332">{seconds}s left</Typography>;
       } else {
         return (

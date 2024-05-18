@@ -1,9 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import BasePage from "./BasePage";
 import { useParams, Link } from "react-router-dom";
-import { Button, Typography, TextField } from "@mui/material";
+import { Box, Button, Typography, TextField } from "@mui/material";
 import UserContext from "../contexts/UserContext";
 import { socket } from "../websockets";
+import IconHeading from "./IconHeading";
+import editIcon from "../images/editIcon.svg";
 
 function NamePage() {
   const { type } = useParams(); // will be "join" or "create"
@@ -22,23 +24,46 @@ function NamePage() {
 
   useEffect(() => {
     socket.on("created-room", (data) => {
-      data = JSON.parse(data)
-      setUser(user => {
-        return { ...user, id: data.user_id, roomCode: data.room_code }
+      data = JSON.parse(data);
+      setUser((user) => {
+        return { ...user, id: data.user_id, roomCode: data.room_code };
       });
     });
   });
 
   return (
     <BasePage>
-      <Typography>Enter your name</Typography>
-      <TextField
-        sx={{ bgcolor: "white" }}
-        value={user.name}
-        onChange={(event) => {
-          setUser({ name: event.target.value });
-        }}
-      />
+      <IconHeading text="YOUR NAME" icon={editIcon} />
+      <Box pt={1} pb={12} width="100%" justifyContent="center">
+        <Typography pb={2} textAlign="center">
+          Enter your name:
+        </Typography>
+        <Box bgcolor="#1D1B25" width="100%" borderRadius="1rem">
+          <TextField
+            fullWidth
+            value={user.name}
+            onChange={(event) => {
+              setUser({ ...user, name: event.target.value });
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "none",
+                  borderRadius: "20rem",
+                },
+              },
+              "& .MuiInputBase-input": {
+                fontSize: "1.5rem",
+                color: "#D2D0DC",
+                textAlign: "center",
+                fontWeight: 600,
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+              },
+            }}
+          />
+        </Box>
+      </Box>
       <Button
         variant="outlined"
         component={Link}
