@@ -1,7 +1,14 @@
+import time
+from typing import List, Dict, Optional
+
 class Prompt:
-    def __init__(self, prompt_id, text):
-        self.prompt_id = prompt_id
-        self.text = text
+    def __init__(self, prompt_id: int, text: str):
+        self.prompt_id: int = prompt_id
+        self.text: str = text
+        self.current_prompt_index: int = 0
+        self.prompts: List[str] = []
+        self.user_answers: Dict[str, List[Optional[str]]] = {}
+        self.users: List[User] = [] 
 
     def change_text(self, new_text):
         self.text = new_text

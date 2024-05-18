@@ -1,10 +1,10 @@
 import datetime
 
 class Message:
-    def __init__(self, nickname, text):
-        self.nickname = nickname
-        self.text = text
-        self.timestamp = datetime.datetime.now()
+    def __init__(self, nickname: str, text: str):
+        self.nickname: str = nickname
+        self.text: str = text
+        self.timestamp: datetime.datetime = datetime.datetime.now()
 
-    def format_for_display(self):
-        return f"{self.timestamp.strftime('%Y-%m-%d %H:%M:%S')} - {self.user_id}: {self.text}"
+    def format_for_display(self) -> str:
+        return f"{self.timestamp.strftime('%Y-%m-%d %H:%M:%S')} - {self.nickname}: {self.text}"
