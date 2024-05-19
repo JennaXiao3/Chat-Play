@@ -30,6 +30,7 @@ function GamePage() {
   useEffect(() => {
     socket.on("new-prompt", (data) => {
       console.log(data);
+      setPrompts(data.prompt_content);
     });
 
     socket.on("update-chat", (data) => {
@@ -149,7 +150,7 @@ function GamePage() {
             }}
             p="1rem 2rem"
           >
-            <Typography color="#262332">{"what the fuck"}</Typography>
+            <Typography color="#262332">{prompts}</Typography>
             <Box>
               <Countdown date={timeEnd} renderer={timeRenderer} />
             </Box>
