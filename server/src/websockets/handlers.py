@@ -4,6 +4,7 @@ import json, datetime, time
 from .server import socketio
 from src.utils.colours import reset_colours
 
+MAX_PROMPTS = 5
 
 def update_lobby(room: Room):
     response = {
@@ -35,10 +36,9 @@ def update_chat(room: Room):
     
 
 def send_new_prompt(room: Room):
-    if Room.TOTAL_NUM_PROMPTS == len(room.prompt_ids):
-        room.end_game()
+    if len (room.prompt_ids) >= MAX_PROMPTS:
+        socketio.emit("end_game_accepting_guesses", {"game_over" : True})
         return
-    
     prompt = Prompt()
     
     room.add_prompt_id(prompt.id)
