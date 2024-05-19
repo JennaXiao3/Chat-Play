@@ -1,9 +1,38 @@
-import React, { useContext } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import React, { useContext, useState, useEffect } from "react";
+import { Box, Card, Grid, Stack, Typography } from "@mui/material";
 import UserContext from "../contexts/UserContext";
+import { socket } from "../websockets";
+import GuessesContext from "../contexts/GuessesContext";
+import PlayersContext from "../contexts/PlayersContext";
+import Profile from "./Profile";
+import { getAnswer } from "../helper";
+import ResultsBoard from "./ResultsBoard";
 
 function LeaderboardPage() {
   const [user, setUser] = useContext(UserContext);
+  const [scores, setScores] = useState();
+  const [guesses] = useContext(GuessesContext);
+  const [players, setPlayers] = useContext(PlayersContext);
+  const [answer, setAnswer] = useState([]);
+
+  useEffect(() => {
+    socket.on("scores", (res) => {
+      setScores(res.scores);
+    });
+  });
+
+  console.log("my scores");
+  console.log(guesses);
+
+  console.log("all scores:");
+  console.log(scores);
+
+  console.log(players);
+
+  useEffect(() => {
+    setAnswer(getAnswer(players, guesses));
+    console.log(getAnswer(players, guesses));
+  }, []);
 
   return (
     <Box
@@ -30,8 +59,73 @@ function LeaderboardPage() {
           backgroundImage: "linear-gradient(to bottom, #654597, #4D67CF)",
         }}
       >
-        <Grid container item justifyContent="center" alignItems="center">
-          <Typography>Who's Who?</Typography>
+        <Grid
+          container
+          flexDirection="column"
+          item
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography
+            variant="h1"
+            sx={{ color: "#FFFFFF", opacity: 0.7 }}
+            mb={8}
+          >
+            YOUR GUESSES
+          </Typography>
+
+          <Stack direction="column">
+            <Stack direction="row" spacing={2}>
+              <Stack direction="column">
+                {answer.map((player) => (
+                  <Box width={200}>
+                    <Card
+                      elevation={8}
+                      sx={{
+                        marginBottom: 4,
+                        borderRadius: ".8rem",
+                        py: "0.8rem",
+                        backgroundColor: "#2C2B31",
+                        px: "1.2rem",
+                      }}
+                    >
+                      <Profile
+                        nickname={player.nickname}
+                        color={`#${player.color}`}
+                      />
+                    </Card>
+                  </Box>
+                ))}
+              </Stack>
+              <Stack direction="column">
+                {answer.map((player) => (
+                  <Box width={200}>
+                    <Card
+                      elevation={8}
+                      sx={{
+                        marginBottom: 4,
+                        borderRadius: ".8rem",
+                        opacity: 0.7,
+                        textAlign: "center",
+                        py: "1rem",
+                        display: "flex",
+                        justifyContent: "center",
+                        backgroundColor: player.isCorrect
+                          ? "#52D078"
+                          : "#FF8787",
+                      }}
+                    >
+                      <Box width={160}>
+                        <Typography noWrap fontWeight={600} color="#2C2B31">
+                          {player.guessedName.toUpperCase()}
+                        </Typography>
+                      </Box>
+                    </Card>
+                  </Box>
+                ))}
+              </Stack>
+            </Stack>
+          </Stack>
         </Grid>
         <Grid
           xs={4}
@@ -41,7 +135,7 @@ function LeaderboardPage() {
             left: 0,
             opacity: 0.5,
             alignItems: "center",
-            padding: "1rem 2rem",
+            padding: "1rem 1.2rem",
             backgroundImage: "linear-gradient(to right, #000000, #441B6E)",
           }}
           container
@@ -49,10 +143,12 @@ function LeaderboardPage() {
           justifyContent="space-between"
         >
           <Grid item>
-            <Typography>{user.nickname}</Typography>
+            <Profile nickname={user.nickname} color={user.color} />
           </Grid>
           <Grid item>
-            <Typography>{user.name}</Typography>
+            <Typography letterSpacing="1px" variant="subtitle1" color="#8E91E3">
+              {user.name.toUpperCase()}
+            </Typography>
           </Grid>
         </Grid>
         <Grid></Grid>
@@ -79,11 +175,18 @@ function LeaderboardPage() {
             }}
             p="1.5rem 2rem"
           >
-            <Typography color="#262332">LEADERBOARD</Typography>
+            <Typography
+              fontSize="2rem"
+              color="#262332"
+              letterSpacing="2px"
+              fontWeight={600}
+            >
+              THE REVEAL
+            </Typography>
           </Box>
         </Box>
         <Box width="100%" height="100%" p="1.5rem 2rem">
-          <Typography>stuff here</Typography>
+          <ResultsBoard answer={answer} />
         </Box>
       </Grid>
     </Box>

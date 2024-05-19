@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const GuessesContext = createContext([{}, () => {}]);
+const GuessesContext = createContext([[], () => []]);
 
 export default GuessesContext;

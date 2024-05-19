@@ -28,7 +28,7 @@ function App() {
     color: "",
   });
 
-  const [guesses, setGuesses] = useState({});
+  const [guesses, setGuesses] = useState([]);
 
   const [players, setPlayers] = useState([]);
 

@@ -15,12 +15,6 @@ import { shuffle } from "../helper";
 import GuessesContext from "../contexts/GuessesContext";
 import { socket } from "../websockets";
 
-const initialItems = [
-  { id: "item-1", content: "Card 1 asdfasdfasdfasd" },
-  { id: "item-2", content: "Card 2" },
-  { id: "item-3", content: "Card 3" },
-];
-
 function GuessBox({ isGameOver }) {
   const [items, setItems] = useState([]);
   const [players, setPlayers] = useContext(PlayersContext);
@@ -60,6 +54,8 @@ function GuessBox({ isGameOver }) {
         roomCode: user.roomCode,
       })
     );
+
+    setGuesses(userGuesses);
     console.log(userGuesses);
   };
 

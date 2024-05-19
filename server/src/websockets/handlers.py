@@ -4,7 +4,7 @@ import json, datetime, time
 from .server import socketio
 from src.utils.colours import reset_colours
 
-MAX_PROMPTS = 5
+MAX_PROMPTS = 3 # change this later
 
 def update_lobby(room: Room):
     response = {
