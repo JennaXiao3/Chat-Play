@@ -7,7 +7,7 @@ Score = int
 NickName = str
 Name = str
 
-def calculate_scores(ug: UserGuesses) -> Tuple[List[Tuple[User]], Dict[NickName, Name]]:
+def calculate_scores(ug: UserGuesses) -> Tuple[List[Tuple[Dict]], Dict[NickName, Name]]:
     scores = []
     for u in User.users:
         score = 0
@@ -17,7 +17,7 @@ def calculate_scores(ug: UserGuesses) -> Tuple[List[Tuple[User]], Dict[NickName,
                 if other_user.nickname == guess[0] and other_user.name == guess[1]:
                     score += 1
         u.score = score
-        scores.append((u.id, u))
+        scores.append(u.__dict__)
 
     answers = dict()
     for user in User.users:
