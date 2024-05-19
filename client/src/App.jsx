@@ -10,6 +10,7 @@ import RoomPage from "./pages/RoomPage";
 import GamePage from "./pages/GamePage";
 import UserContext from "./contexts/UserContext";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import PlayersContext from "./contexts/PlayersContext";
 
 function App() {
   useEffect(() => {
@@ -28,25 +29,30 @@ function App() {
   };
 
   const [user, setUser] = useState({
-    name: "Jenna",
-    nickname: "Broski",
+    name: "",
+    nickname: "",
     id: null,
     roomCode: null,
+    color: "",
   });
+
+  const [players, setPlayers] = useState([]);
 
   return (
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={[user, setUser]}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/name/:type" element={<NamePage />} />
-            <Route path="/join" element={<JoinPage />} />
-            <Route path="/room/:playerType" element={<RoomPage />} />
-            <Route path="/game" element={<GamePage />} />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
-          </Routes>
-        </BrowserRouter>
+        <PlayersContext.Provider value={[players, setPlayers]}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/name/:type" element={<NamePage />} />
+              <Route path="/join" element={<JoinPage />} />
+              <Route path="/room/:playerType" element={<RoomPage />} />
+              <Route path="/game" element={<GamePage />} />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
+            </Routes>
+          </BrowserRouter>
+        </PlayersContext.Provider>
       </UserContext.Provider>
     </ThemeProvider>
   );

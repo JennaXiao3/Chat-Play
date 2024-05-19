@@ -26,7 +26,13 @@ function NamePage() {
     socket.on("created-room", (data) => {
       data = JSON.parse(data);
       setUser((user) => {
-        return { ...user, id: data.user_id, roomCode: data.room_code };
+        return {
+          ...user,
+          nickname: data.user_nickname,
+          id: data.user_id,
+          roomCode: data.room_code,
+          color: "#" + data.user_colour,
+        };
       });
     });
   });

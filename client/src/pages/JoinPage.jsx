@@ -13,8 +13,8 @@ function JoinPage() {
   const [user, setUser] = useContext(UserContext);
 
   const joinRoomHandler = () => {
-    console.log("bsadfas")
-    console.log(roomCode)
+    console.log("bsadfas");
+    console.log(roomCode);
     socket.send(
       JSON.stringify({
         action: "join-room",
@@ -25,13 +25,19 @@ function JoinPage() {
   };
 
   useEffect(() => {
-    socket.on("joined-room", data => {
-      data = JSON.parse(data)
-      setUser(user => {
-        return { ...user, id: data.user_id, roomCode: data.room_code }
+    socket.on("joined-room", (data) => {
+      data = JSON.parse(data);
+      setUser((user) => {
+        return {
+          ...user,
+          nickname: data.user_nickname,
+          id: data.user_id,
+          roomCode: data.room_code,
+          color: "#" + data.user_colour,
+        };
       });
-    })
-  })
+    });
+  });
 
   return (
     <BasePage>
@@ -53,6 +59,7 @@ function JoinPage() {
           fontSize: "2.5rem",
           padding: "0.8rem",
           color: "#B2B0BA",
+          fontWeight: 600,
         }}
         inputFocusStyle={{ borderColor: "blue" }}
         onComplete={(value, index) => {}}
