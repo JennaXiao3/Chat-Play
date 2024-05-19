@@ -1,6 +1,8 @@
 import random
 
-colours = [ "F5F91B", "1BF9C4", "FF555", "86FF73", "F18F01", "048BA8", "99C24D", "EC058E" ]
+colours = [ "F5F91B", "1BF9C4"]
+
+# "FFF555", "86FF73", "F18F01", "048BA8", "99C24D", "EC058E" ]
 
 curr_colours = colours.copy()
 
