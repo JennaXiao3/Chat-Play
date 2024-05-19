@@ -24,7 +24,7 @@ function GamePage() {
         messageText: message,
       })
     );
-    console.log(message);
+    // console.log(message);
   };
 
   useEffect(() => {
@@ -34,12 +34,13 @@ function GamePage() {
     });
 
     socket.on("update-chat", (data) => {
-      console.log(JSON.parse(data));
+      console.log(JSON.parse(data).chat);
+      setChatMessages(JSON.parse(data).chat);
     });
 
     socket.on("ended-game", () => {
-      console.log("GAME OVER")
-    })
+      console.log("GAME OVER");
+    });
   }, []);
   const timeRenderer = ({ minutes, seconds, completed }) => {
     const textProps = {
@@ -93,6 +94,7 @@ function GamePage() {
     >
       <Grid
         container
+        item
         xs={4}
         justifyContent="center"
         alignItems="space-between"
@@ -156,9 +158,7 @@ function GamePage() {
             </Box>
           </Box>
         </Box>
-        <Box width="100%" height="100%" p="1.5rem 2rem">
-          <ChatMessages messages={chatMessages} />
-        </Box>
+        <ChatMessages chat={chatMessages} />
         <Grid
           xs={8}
           container

@@ -18,14 +18,18 @@ def update_lobby(room: Room):
 def update_chat(room: Room):
     prompts: list[Prompt] = [Prompt.find_by_id(prompt_id) for prompt_id in room.prompt_ids]
     
-    chat = {}
+    chat = []
     
     for prompt in prompts:
         messages = []
         for message_id in prompt.message_ids:
             message = Message.find_by_id(message_id)
-            messages.append(message.__dict__)
-        chat[prompt.content] = messages
+            user = User.find_by_id(message.user_id)
+            messages.append({
+                "message": message.__dict__,
+                "user": user.__dict__
+            })
+        chat.append({ "prompt": prompt.content, "messages": messages})
     
     response = {
         "room_id": room.id,
