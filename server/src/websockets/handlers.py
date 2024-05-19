@@ -2,6 +2,7 @@ from src.models import User, Room, Prompt, Message
 import json
 
 from .server import socketio
+from src.utils.colours import reset_colours
 
 
 def update_lobby(room: Room):
@@ -51,6 +52,7 @@ def send_new_prompt(room: Room):
 def create_room(host_name):
     host = User(host_name)
     room = Room(host.id)
+    reset_colours()
 
     response = {
         "room_id": room.id,
