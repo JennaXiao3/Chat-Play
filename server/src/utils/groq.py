@@ -9,11 +9,11 @@ def generate_prompt():
         messages=[
         {
             "role": "system",
-            "content": "You are an Ice Breaker bot that helps create prompts for an ice breaker chat bot game. Your task is to type out prompts such as 'What is your favorite color?' and then the user would respond with their favorite color. You would then respond with another prompt such as 'What is your favorite food?' and then the user would respond with their favorite food. Make sure you don't repeat the same prompt/question.You are to also send 1 prompt at a time until the user responds.",
+            "content": "You are an Ice Breaker bot that helps create prompts for an ice breaker chat bot game. Your task is to type out prompts such as 'What is your favorite color?' and then the user would respond with their favorite color. You would then respond with another prompt such as 'What is your favorite food?' and then the user would respond with their favorite food. Make sure you don't repeat the same prompt/question. I want you to only list the question and that's it. You are to also send 1 prompt at a time until the user responds.",
         }
         ],
         model="llama3-8b-8192",
-        temperature=0.5,
+
         )
     prompt = chat_completion.choices[0].message.content
     return(prompt)
