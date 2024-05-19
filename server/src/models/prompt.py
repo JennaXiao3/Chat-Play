@@ -1,4 +1,4 @@
-import datetime
+import datetime, string, random
 from src.utils.gen_id import gen_id
 from src.models import Message
 
@@ -18,7 +18,7 @@ class Prompt:
     def __init__(self):
         self.id = gen_id("prompt")
         self.deletion_time = datetime.datetime.now() + Prompt.lifespan
-        self.content = "what is your fav city"
+        self.content = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
         self.message_ids = []
         Prompt.prompts.append(self)
         
