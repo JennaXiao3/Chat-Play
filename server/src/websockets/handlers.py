@@ -54,7 +54,12 @@ def send_new_prompt(room: Room):
     
     time.sleep(Prompt.lifespan.total_seconds())
     
-    if prompt.deletion_time < datetime.datetime.now():
+    responded_user_ids = set([Message.find_by_id(message_id).user_id for message_id in prompt.message_ids])
+    room_user_ids = room.user_ids
+    
+    prompt_is_answered_by_all_users = len(responded_user_ids) == len(room_user_ids)
+    
+    if not prompt_is_answered_by_all_users:
         send_new_prompt(room)
     
 
