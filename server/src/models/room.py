@@ -4,6 +4,7 @@ from src.models.guesses import UserGuesses, Guesses
 from src.models.leaderboard import Leaderboard
 
 class Room:
+    TOTAL_NUM_PROMPTS = 5
     rooms = []
     
     @classmethod

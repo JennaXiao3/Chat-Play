@@ -1,5 +1,5 @@
 from src.models import User, Room, Prompt, Message
-import json
+import json, datetime, time
 
 from .server import socketio
 from src.utils.colours import reset_colours
@@ -32,9 +32,13 @@ def update_chat(room: Room):
     }
     
     socketio.emit("update-chat", json.dumps(response))
-
+    
 
 def send_new_prompt(room: Room):
+    if Room.TOTAL_NUM_PROMPTS == len(room.prompt_ids):
+        room.end_game()
+        return
+    
     prompt = Prompt()
     
     room.add_prompt_id(prompt.id)
@@ -43,10 +47,15 @@ def send_new_prompt(room: Room):
         "room_id": room.id,
         "prompt_content": prompt.content,
         "deletion_time": prompt.deletion_time.strftime(Prompt.time_format)
-        
+   
     }
     
     socketio.emit("new-prompt", response)
+    
+    time.sleep(Prompt.lifespan.total_seconds())
+    
+    if prompt.deletion_time < datetime.datetime.now():
+        send_new_prompt(room)
     
 
 def create_room(host_name):
