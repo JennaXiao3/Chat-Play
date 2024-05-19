@@ -8,42 +8,65 @@ import ChatMessages from "./ChatMessages";
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
   const [prompts, setPrompts] = useState([]);
-  const [chatMessages, setChatMessages] = useState([])
+  const [chatMessages, setChatMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [timeEnd, setTimeEnd] = useState(Date.now() + 100000); // TODO: implement time thingy
+  const [timeEnd, setTimeEnd] = useState(Date.now() + 10000); // TODO: implement time thingy
 
   const sendMessage = () => {
     // TODO: send user's message to server
-    console.log(user)
+    console.log(user);
 
-    socket.send(JSON.stringify({
-      action: "add-message",
-      userId: user.id,
-      roomCode: user.roomCode,
-      messageText: message
-    }))
+    socket.send(
+      JSON.stringify({
+        action: "add-message",
+        userId: user.id,
+        roomCode: user.roomCode,
+        messageText: message,
+      })
+    );
     console.log(message);
   };
 
   useEffect(() => {
-    socket.on("new-prompt", data => {
-      console.log(data)
-    })
+    socket.on("new-prompt", (data) => {
+      console.log(data);
+    });
 
-    socket.on("update-chat", data => {
-      console.log(JSON.parse(data))
-    })
-  })
+    socket.on("update-chat", (data) => {
+      console.log(JSON.parse(data));
+    });
+  });
   const timeRenderer = ({ minutes, seconds, completed }) => {
+    const textProps = {
+      color: "#323868",
+      fontWeight: 600,
+      opacity: 0.1,
+      letterSpacing: "1px",
+      fontSize: "1.2rem",
+    };
     if (completed) {
-      return <Typography color="#262332">DONE</Typography>;
+      return <Typography {...textProps}>DONE</Typography>;
     } else {
       if (minutes === 0) {
-        return <Typography color="#262332">{seconds}s left</Typography>;
+        if (seconds < 10) {
+          return (
+            <Typography {...textProps} sx={{ color: "#B70E0E" }}>
+              {seconds}
+            </Typography>
+          );
+        }
+        return <Typography {...textProps}>0:{seconds}</Typography>;
       } else {
+        if (seconds < 10) {
+          return (
+            <Typography {...textProps}>
+              {minutes}:0{seconds}
+            </Typography>
+          );
+        }
         return (
-          <Typography color="#262332">
-            {minutes}:{seconds} mins left
+          <Typography {...textProps}>
+            {minutes}:{seconds}
           </Typography>
         );
       }
@@ -120,7 +143,7 @@ function GamePage() {
             sx={{
               backgroundImage: "linear-gradient(to right, #C6A8FC, #8C99FF)",
             }}
-            p="1.5rem 2rem"
+            p="1rem 2rem"
           >
             <Typography color="#262332">{"what the fuck"}</Typography>
             <Box>
@@ -129,7 +152,7 @@ function GamePage() {
           </Box>
         </Box>
         <Box width="100%" height="100%" p="1.5rem 2rem">
-          <ChatMessages messages = {chatMessages}/>
+          <ChatMessages messages={chatMessages} />
         </Box>
         <Grid
           xs={8}

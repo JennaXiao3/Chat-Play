@@ -16,7 +16,9 @@ class User:
         self.nickname: str = self.generate_nickname()
         self.id: int = self.generate_id()
         self.colour = generate_colour()
+        self.score = -1
         User.users.append(self)
+
 
     def generate_nickname(self) -> str:
         random1 = ['happy', 'goose', 'honque', 'honk', 'crazy']

@@ -61,7 +61,7 @@ function JoinPage() {
           color: "#B2B0BA",
           fontWeight: 600,
         }}
-        inputFocusStyle={{ borderColor: "blue" }}
+        inputFocusStyle={{}}
         onComplete={(value, index) => {}}
         autoSelect={true}
         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
