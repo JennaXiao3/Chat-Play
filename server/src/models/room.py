@@ -1,4 +1,5 @@
 from src.utils.gen_id import gen_id
+from src.utils.gen_room_code import gen_room_code
 from src.models.guesses import UserGuesses, Guesses
 from src.models.leaderboard import Leaderboard
 
@@ -21,7 +22,7 @@ class Room:
         self.id = gen_id("room")
         self.host_id = host_id
         self.user_ids = [host_id]
-        self.code = 12312
+        self.code = gen_room_code()
         self.game_started = False
         self.prompt_ids = []
         self.leaderboard = {}

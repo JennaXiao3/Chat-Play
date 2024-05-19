@@ -13,6 +13,8 @@ function JoinPage() {
   const [user, setUser] = useContext(UserContext);
 
   const joinRoomHandler = () => {
+    console.log("bsadfas")
+    console.log(roomCode)
     socket.send(
       JSON.stringify({
         action: "join-room",

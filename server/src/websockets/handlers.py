@@ -64,6 +64,8 @@ def create_room(host_name):
 
 
 def join_room(user_name, room_code):
+    print([room.code for room in Room.rooms])
+    print(room_code)
     user = User(user_name)
     room = Room.find_by_code(room_code)
 
