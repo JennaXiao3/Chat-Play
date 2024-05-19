@@ -37,8 +37,9 @@ def update_chat(room: Room):
 
 def send_new_prompt(room: Room):
     if len (room.prompt_ids) >= MAX_PROMPTS:
-        socketio.emit("end_game_accepting_guesses", {"game_over" : True})
+        socketio.emit("ended-game")
         return
+    
     prompt = Prompt()
     
     room.add_prompt_id(prompt.id)

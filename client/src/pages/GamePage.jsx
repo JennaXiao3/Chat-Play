@@ -35,6 +35,10 @@ function GamePage() {
     socket.on("update-chat", (data) => {
       console.log(JSON.parse(data));
     });
+
+    socket.on("ended-game", () => {
+      console.log("GAME OVER")
+    })
   });
   const timeRenderer = ({ minutes, seconds, completed }) => {
     const textProps = {
