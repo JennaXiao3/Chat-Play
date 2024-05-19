@@ -1,6 +1,7 @@
 import datetime, string, random
 from src.utils.gen_id import gen_id
 from src.models import Message
+from src.models import groq
 
 
 class Prompt:
@@ -18,7 +19,7 @@ class Prompt:
     def __init__(self):
         self.id = gen_id("prompt")
         self.deletion_time = datetime.datetime.now() + Prompt.lifespan
-        self.content = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        self.content = groq.generate_prompt()
         self.message_ids = []
         Prompt.prompts.append(self)
         
