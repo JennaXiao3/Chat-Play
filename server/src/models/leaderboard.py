@@ -1,28 +1,30 @@
 from src.models.user import User
-from typing import Dict, Tuple, Optional
+from typing import Tuple, List, Dict
 from src.models.guesses import UserGuesses
 
 UserId = int
+Score = int
+NickName = str
+Name = str
 
-def calculate_scores(ug: UserGuesses) -> Dict[UserId, int]:
-    scores = dict()
+def calculate_scores(ug: UserGuesses) -> Tuple[List[Tuple[User]], Dict[NickName, Name]]:
+    scores = []
     for u in User.users:
         score = 0
-        g = ug[u] 
-        for guess in g:
+        user_guesses = ug[u.id] 
+        for guess in user_guesses:
             for other_user in User.users:
                 if other_user.nickname == guess[0] and other_user.name == guess[1]:
                     score += 1
-        scores[u.id] = score
-    return scores
+        u.score = score
+        scores.append((u.id, u))
+
+    answers = dict()
+    for user in User.users:
+        answers[user.nickname] = user.name
+    return scores, answers
         
 class Leaderboard:
     def __init__(self, ug: UserGuesses):
         self.scores = calculate_scores(ug)
 
-    def get_score(self, user_id) -> int:
-        return self.scores.get(user_id, 0)
-
-    def get_leader(self) -> Optional[Tuple[UserId, int]]:
-        leader_id = max(self.scores, key=lambda user_id: self.scores[user_id])
-        return (leader_id, self.scores.get(leader_id))
