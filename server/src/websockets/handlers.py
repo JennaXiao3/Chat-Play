@@ -56,7 +56,8 @@ def create_room(host_name):
         "room_id": room.id,
         "room_code": room.code,
         "user_id": host.id,
-        "user_colour" : host.colour
+        "user_colour" : host.colour,
+        "user_nickname": host.nickname
     }
 
     socketio.emit("created-room", json.dumps(response))
@@ -72,7 +73,7 @@ def join_room(user_name, room_code):
 
     room.add_user_id(user.id)
 
-    response = {"room_id": room.id, "user_id": user.id, "room_code": room.code, "user_colour": user.colour}
+    response = {"room_id": room.id, "user_id": user.id, "room_code": room.code, "user_colour": user.colour, "user_nickname": user.nickname}
 
     socketio.emit("joined-room", json.dumps(response))
 
