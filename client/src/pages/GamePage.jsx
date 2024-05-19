@@ -9,6 +9,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import GuessBox from "./GuessBox";
 import PlayersContext from "../contexts/PlayersContext";
 import { shuffle } from "../helper";
+import { Link, useNavigate } from "react-router-dom";
 
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
@@ -18,6 +19,7 @@ function GamePage() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [timeEnd, setTimeEnd] = useState(Date.now() + 10000); // TODO: implement time thingy
   const [players, setPlayers] = useContext(PlayersContext);
+  const navigate = useNavigate();
 
   const sendMessage = () => {
     // TODO: send user's message to server
@@ -62,6 +64,13 @@ function GamePage() {
       setIsGameOver(true);
     });
   }, []);
+
+  useEffect(() => {
+    socket.on("guesses-done", () => {
+      navigate("/leaderboard");
+    });
+  });
+
   const timeRenderer = ({ minutes, seconds, completed }) => {
     const textProps = {
       color: "#323868",

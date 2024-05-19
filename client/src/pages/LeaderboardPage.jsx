@@ -21,6 +21,7 @@ function LeaderboardPage() {
     >
       <Grid
         container
+        item
         xs={4}
         justifyContent="center"
         alignItems="space-between"

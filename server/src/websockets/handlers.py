@@ -142,6 +142,7 @@ def add_guess(user_id: int, user_guesses, room_code: int):
     
     prompt_is_answered_by_all_users = len(room.user_guesses) == len(room_user_ids)
     if prompt_is_answered_by_all_users:
+        socketio.emit("guesses-done")
         send_leaderboard(room)
 
 def send_leaderboard(room):
