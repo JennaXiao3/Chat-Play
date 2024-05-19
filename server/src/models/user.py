@@ -1,3 +1,4 @@
+from src.utils.colours import generate_colour
 import random
 from typing import List
 
@@ -14,6 +15,7 @@ class User:
         self.name: str = name
         self.nickname: str = self.generate_nickname()
         self.id: int = self.generate_id()
+        self.colour = generate_colour()
         User.users.append(self)
 
     def generate_nickname(self) -> str:
