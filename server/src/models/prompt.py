@@ -1,7 +1,7 @@
 import datetime, string, random
 from src.utils.gen_id import gen_id
+from src.utils import groq
 from src.models import Message
-from src.models import groq
 
 
 class Prompt:
@@ -9,7 +9,6 @@ class Prompt:
     time_format = "%Y-%m-%d %H:%M:%S"
     
     prompts = []
-    Groq = groq.Groq()
     
     @classmethod
     def find_by_id(cls, id):
