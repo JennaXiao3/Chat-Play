@@ -1,10 +1,11 @@
 import random
+import copy
 
 colours = [ "F5F91B", "1BF9C4"]
 
 # "FFF555", "86FF73", "F18F01", "048BA8", "99C24D", "EC058E" ]
 
-curr_colours = colours.copy()
+curr_colours = copy.deepcopy(colours)
 
 def generate_colour() -> str:
     random.shuffle(curr_colours)
