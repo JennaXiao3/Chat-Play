@@ -40,7 +40,7 @@ function GamePage() {
     socket.on("ended-game", () => {
       console.log("GAME OVER")
     })
-  });
+  }, []);
   const timeRenderer = ({ minutes, seconds, completed }) => {
     const textProps = {
       color: "#323868",

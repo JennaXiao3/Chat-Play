@@ -19,15 +19,6 @@ function App() {
     });
   }, []);
 
-  const createRoom = () => {
-    socket.send(
-      JSON.stringify({
-        action: "create-room",
-        hostName: "bob",
-      })
-    );
-  };
-
   const [user, setUser] = useState({
     name: "",
     nickname: "",

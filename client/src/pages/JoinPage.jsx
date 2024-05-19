@@ -7,7 +7,7 @@ import UserContext from "../contexts/UserContext";
 import IconHeading from "./IconHeading";
 import joinIcon from "../images/joinIcon.svg";
 import PinInput from "react-pin-input";
-
+let exists = false
 function JoinPage() {
   const [roomCode, setRoomCode] = useState("");
   const [user, setUser] = useContext(UserContext);
@@ -27,6 +27,10 @@ function JoinPage() {
   useEffect(() => {
     socket.on("joined-room", (data) => {
       data = JSON.parse(data);
+      console.log(user)
+
+      if (exists) return;
+
       setUser((user) => {
         return {
           ...user,
@@ -36,8 +40,10 @@ function JoinPage() {
           color: "#" + data.user_colour,
         };
       });
+
+      exists = true
     });
-  });
+  }, []);
 
   return (
     <BasePage>
