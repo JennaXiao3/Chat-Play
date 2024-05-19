@@ -12,5 +12,6 @@ def generate_colour() -> str:
 
 
 def reset_colours():
-    curr_colours = colours.copy()
+    curr_colours.clear()
+    curr_colours.extend(colours)
 
