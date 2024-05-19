@@ -20,6 +20,11 @@ const theme = createTheme({
       fontSize: "1rem",
       fontWeight: 200,
     },
+    body2: {
+      color: "#F5F5F5",
+      fontSize: "0.9rem",
+      fontWeight: 200,
+    },
     subtitle1: {
       fontWeight: 600,
       fontSize: "0.9rem",

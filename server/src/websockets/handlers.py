@@ -52,7 +52,6 @@ def send_new_prompt(room: Room):
         "room_id": room.id,
         "prompt_content": prompt.content,
         "deletion_time": prompt.deletion_time.strftime(Prompt.time_format)
-   
     }
     
     socketio.emit("new-prompt", response)

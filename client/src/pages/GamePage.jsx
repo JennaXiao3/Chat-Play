@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, Grid, Typography, TextField } from "@mui/material";
+import { Box, Button, Grid, Typography, TextField, Stack } from "@mui/material";
 import UserContext from "../contexts/UserContext";
 import { socket } from "../websockets";
 import Countdown from "react-countdown";
 import ChatMessages from "./ChatMessages";
+import Profile from "./Profile";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
@@ -24,12 +26,16 @@ function GamePage() {
         messageText: message,
       })
     );
+    setMessage("");
     // console.log(message);
   };
+
+  console.log(timeEnd);
 
   useEffect(() => {
     socket.on("new-prompt", (data) => {
       console.log(data);
+      setTimeEnd(new Date(data.deletion_time));
       setPrompts(data.prompt_content);
     });
 
@@ -112,9 +118,9 @@ function GamePage() {
             position: "fixed",
             bottom: 0,
             left: 0,
-            opacity: 0.5,
+            opacity: 0.7,
             alignItems: "center",
-            padding: "1rem 2rem",
+            padding: "1rem 1.2rem",
             backgroundImage: "linear-gradient(to right, #000000, #441B6E)",
           }}
           container
@@ -122,10 +128,12 @@ function GamePage() {
           justifyContent="space-between"
         >
           <Grid item>
-            <Typography>{user.nickname}</Typography>
+            <Profile nickname={user.nickname} color={user.color} />
           </Grid>
           <Grid item>
-            <Typography>{user.name}</Typography>
+            <Typography letterSpacing="1px" variant="subtitle1" color="#8E91E3">
+              {user.name.toUpperCase()}
+            </Typography>
           </Grid>
         </Grid>
         <Grid></Grid>
@@ -137,28 +145,40 @@ function GamePage() {
         sx={{
           backgroundImage: "linear-gradient(to bottom right, #2C2C30, #221E32)",
         }}
-        alignItems="start"
-        justifyContent="start"
+        alignItems="flex-start"
+        justifyContent="flex-start"
       >
-        <Box p="1rem 1.5rem" flexShrink={1} width="100%">
+        <Box p="1rem 1.5rem" pb={0} flexShrink={1} width="100%">
           <Box
             flexGrow={1}
             display="flex"
             justifyContent="space-between"
             alignItems="center"
             borderRadius="0.6rem"
+            p="1.2rem 2rem"
             sx={{
               backgroundImage: "linear-gradient(to right, #C6A8FC, #8C99FF)",
+              boxShadow: 3,
             }}
-            p="1rem 2rem"
           >
-            <Typography color="#262332">{prompts}</Typography>
+            <Typography
+              color="#262332"
+              pr="2rem"
+              fontSize="1.2rem"
+              fontWeight={600}
+            >
+              {prompts}
+            </Typography>
             <Box>
               <Countdown date={timeEnd} renderer={timeRenderer} />
             </Box>
           </Box>
         </Box>
-        <ChatMessages chat={chatMessages} />
+        <Box height="100%" width="100%">
+          <Box flexGrow={1} display="flex">
+            <ChatMessages prompts={prompts} chat={chatMessages} />
+          </Box>
+        </Box>
         <Grid
           xs={8}
           container
@@ -171,21 +191,47 @@ function GamePage() {
             alignItems: "center",
           }}
         >
-          <Grid item container xs={10}>
-            <TextField
-              fullWidth
-              value={message}
-              onChange={(event) => {
-                setMessage(event.target.value);
-              }}
-              sx={{ bgcolor: "white" }}
-            />
-          </Grid>
-          <Grid item container xs={2}>
-            <Button variant="fill" onClick={sendMessage}>
-              Send
-            </Button>
-          </Grid>
+          <Stack direction="row" width="100%" spacing={2}>
+            <Grid item width="100%">
+              <Box bgcolor="#363147" width="100%" borderRadius="1rem" mr={2}>
+                <TextField
+                  autoFocus
+                  placeholder="Write a message..."
+                  fullWidth
+                  value={message}
+                  onChange={(event) => {
+                    setMessage(event.target.value);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        border: "none",
+                        borderRadius: "20rem",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      fontSize: ".9rem",
+                      color: "#D2D0DC",
+                      fontWeight: 200,
+                      p: "1rem 1.4rem",
+                    },
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item flexShrink={1}>
+              <Button
+                sx={{ fontSize: "1rem", p: ".8rem 1.4rem" }}
+                variant="fill"
+                onClick={sendMessage}
+              >
+                <Stack direction="row" display="flex" alignItems="center">
+                  <SendRoundedIcon sx={{ mr: 1 }} />
+                  Send
+                </Stack>
+              </Button>
+            </Grid>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

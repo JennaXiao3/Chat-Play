@@ -5,7 +5,7 @@ from src.models import Message
 
 
 class Prompt:
-    lifespan = datetime.timedelta(seconds=15)
+    lifespan = datetime.timedelta(seconds=60)
     time_format = "%Y-%m-%d %H:%M:%S"
     
     prompts = []
