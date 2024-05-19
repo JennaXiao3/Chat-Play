@@ -1,11 +1,10 @@
-import os
-from groq import Groq
+import os, groq
 
-client = Groq(
-    api_key=os.environ.get("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"),
+client = groq.Groq(
+    api_key="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"
 )
 
-class groq:
+class Groq:
     def generate_prompt(self):
         chat_completion = client.chat.completions.create(
     messages=[
