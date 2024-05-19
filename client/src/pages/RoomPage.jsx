@@ -7,6 +7,7 @@ import UserContext from "../contexts/UserContext";
 import { socket } from "../websockets";
 import Profile from "./Profile";
 import PlayersContext from "../contexts/PlayersContext";
+import { shuffle } from "../helper";
 
 function RoomPage() {
   const { playerType } = useParams(); // will be "player" or "host"
@@ -16,7 +17,9 @@ function RoomPage() {
 
   useEffect(() => {
     socket.on("updated-lobby", (data) => {
-      setPlayers(JSON.parse(data).users);
+      const allPlayers = JSON.parse(data).users;
+      setPlayers(allPlayers);
+      // setPlayers(shuffle(players.filter((player) => player.id !== user.id)));
     });
     console.log(user);
   });
@@ -31,6 +34,11 @@ function RoomPage() {
         roomCode: user.roomCode,
       })
     );
+    // const allPlayers = JSON.parse(data).users;
+    // setPlayers(shuffle(players.filter((player) => player.id !== user.id)));
+    // console.log("BRUH PLAYERS");
+    // console.log(players.filter((player) => player.id !== user.id));
+    // setPlayers(shuffle(players));
   };
 
   useEffect(() => {

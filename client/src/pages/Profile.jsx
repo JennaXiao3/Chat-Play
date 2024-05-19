@@ -4,7 +4,7 @@ import { ReactComponent as ProfileIcon } from "../images/profileIcon.svg";
 
 function Profile({ nickname, color }) {
   return (
-    <Stack direction="row">
+    <Stack direction="row" alignItems="center">
       <ProfileIcon fill={color} />
       <Typography pl={1.5} variant="subtitle1" color={color}>
         {nickname}

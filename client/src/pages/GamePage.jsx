@@ -6,13 +6,18 @@ import Countdown from "react-countdown";
 import ChatMessages from "./ChatMessages";
 import Profile from "./Profile";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import GuessBox from "./GuessBox";
+import PlayersContext from "../contexts/PlayersContext";
+import { shuffle } from "../helper";
 
 function GamePage() {
   const [user, setUser] = useContext(UserContext);
   const [prompts, setPrompts] = useState([]);
   const [chatMessages, setChatMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [isGameOver, setIsGameOver] = useState(false);
   const [timeEnd, setTimeEnd] = useState(Date.now() + 10000); // TODO: implement time thingy
+  const [players, setPlayers] = useContext(PlayersContext);
 
   const sendMessage = () => {
     // TODO: send user's message to server
@@ -33,6 +38,14 @@ function GamePage() {
   console.log(timeEnd);
 
   useEffect(() => {
+    // WHY WONT THIS THING WORK :(
+    // socket.on("updated-lobby", (data) => {
+    //   const allPlayers = JSON.parse(data).users;
+    //   setPlayers(allPlayers.filter((player) => player.id !== user.id));
+    //   console.log("aint happening:");
+    //   console.log(allPlayers);
+    // });
+
     socket.on("new-prompt", (data) => {
       console.log(data);
       setTimeEnd(new Date(data.deletion_time));
@@ -46,6 +59,7 @@ function GamePage() {
 
     socket.on("ended-game", () => {
       console.log("GAME OVER");
+      setIsGameOver(true);
     });
   }, []);
   const timeRenderer = ({ minutes, seconds, completed }) => {
@@ -56,6 +70,9 @@ function GamePage() {
       letterSpacing: "1px",
       fontSize: "1.2rem",
     };
+    if (isGameOver) {
+      return;
+    }
     if (completed) {
       return <Typography {...textProps}>DONE</Typography>;
     } else {
@@ -109,8 +126,31 @@ function GamePage() {
           backgroundImage: "linear-gradient(to bottom, #654597, #4D67CF)",
         }}
       >
-        <Grid container item justifyContent="center" alignItems="center">
-          <Typography>Who's Who?</Typography>
+        <Grid
+          container
+          item
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography
+            variant="h1"
+            sx={{ color: "#FFFFFF", opacity: 0.7 }}
+            mb={3}
+          >
+            Who's Who?
+          </Typography>
+          <Typography
+            fontWeight={400}
+            sx={{ color: "#FFFFFF", opacity: 0.7 }}
+            mx={12}
+            textAlign="center"
+            mb={6}
+          >
+            Drag and drop the names on the right side to create the correct
+            name-to-nickname associations
+          </Typography>
+          <GuessBox isGameOver={isGameOver} />
         </Grid>
         <Grid
           xs={4}
@@ -167,7 +207,7 @@ function GamePage() {
               fontSize="1.2rem"
               fontWeight={600}
             >
-              {prompts}
+              {isGameOver ? "Submit your guesses now!" : prompts}
             </Typography>
             <Box>
               <Countdown date={timeEnd} renderer={timeRenderer} />

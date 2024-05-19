@@ -25,6 +25,9 @@ def handle_message(message: str):
         case "add-message":
             handlers.add_message(data["userId"], data["roomCode"], data["messageText"])
         
+        case "add-guess":
+            handlers.add_guess(data["userId"], data["userGuesses"], data["roomCode"])
+
         case _:
             raise ValueError("no action matched")
     
